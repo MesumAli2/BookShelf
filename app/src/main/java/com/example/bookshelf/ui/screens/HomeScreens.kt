@@ -1,9 +1,12 @@
 package com.example.bookshelf.ui.screens
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.bookshelf.R
 import com.example.bookshelf.model.Item
 
 @Composable
@@ -34,6 +38,8 @@ when(booksUiState){
     is BooksUiState.Success ->{
         BooksListScreen(booksUiState.booksRp.items, modifier = modifier.fillMaxSize())
     }
+
+    else -> {}
 }
 
     }
@@ -41,12 +47,13 @@ when(booksUiState){
 @Composable
 fun BooksListScreen(books: List<Item>, modifier: Modifier) {
 
-    LazyVerticalGrid(columns = GridCells.Adaptive((200.dp)), modifier =modifier, contentPadding = PaddingValues(4.dp) ){
+    LazyVerticalGrid(columns = GridCells.Fixed(2), modifier =modifier, contentPadding = PaddingValues(4.dp) ){
         items(items = books, key = {books -> books.id}){
             book -> BooksPhotoCard(book = book, modifier = modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .aspectRatio(1.5f))
+
+        )
         }
     }
 
@@ -54,16 +61,19 @@ fun BooksListScreen(books: List<Item>, modifier: Modifier) {
 
 @Composable
 fun BooksPhotoCard(book: Item, modifier: Modifier) {
-    Card(modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)) {
+    Box(
+        modifier = modifier.fillMaxHeight()
+    ) {
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data(book.volumeInfo.imageLinks.thumbnail)
+                .data(book.volumeInfo.imageLinks.thumbnail.replace("http://", "https://"))
                 .crossfade(true)
                 .build(),
             contentScale = ContentScale.Crop,
-            error = painterResource(id = R.drawable.)
+            error = painterResource(id = R.drawable.ic_broken_image),
+            placeholder = painterResource(id = R.drawable.loading_img),
+            contentDescription = "${book.id}",
+            modifier = Modifier.fillMaxWidth()
         )
-
     }
-
 }

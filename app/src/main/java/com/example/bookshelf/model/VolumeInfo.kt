@@ -1,11 +1,14 @@
 package com.example.bookshelf.model
 
+import com.google.gson.annotations.SerializedName
+
 data class VolumeInfo(
     val allowAnonLogging: Boolean,
     val averageRating: Double,
     val canonicalVolumeLink: String,
     val contentVersion: String,
     val description: String,
+    @SerializedName("imageLinks")
     val imageLinks: ImageLinks,
     val infoLink: String,
     val language: String,

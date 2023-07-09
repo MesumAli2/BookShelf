@@ -1,5 +1,6 @@
 package com.example.bookshelf.data
 
+import android.util.Log
 import com.example.bookshelf.model.BooksRp
 import com.example.bookshelf.network.BooksApiService
 
@@ -11,7 +12,7 @@ class DefaultBooksRepository(
     private val booksApiService : BooksApiService
 ) : BooksRepository{
     override suspend fun getBooks(): BooksRp {
-        return booksApiService.getBooks("jazz+history")
+        return booksApiService.getBooks("jazz")
     }
 
 }
