@@ -12,7 +12,7 @@ class DefaultBooksRepository(
     private val booksApiService : BooksApiService
 ) : BooksRepository{
     override suspend fun getBooks(): BooksRp {
-        return booksApiService.getBooks("jazz")
+        return booksApiService.getBooks("science")
     }
 
 }
