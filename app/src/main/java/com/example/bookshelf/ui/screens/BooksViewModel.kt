@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bookshelf.BooksApplication
 import com.example.bookshelf.data.BooksRepository
-import com.example.bookshelf.data.DefaultBooksRepository
 import com.example.bookshelf.model.BooksRp
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -18,7 +17,7 @@ import java.io.IOException
 
 
 sealed interface BooksUiState {
-    data class Success(val booksRp: BooksRp ) : BooksUiState
+    data class Success(val booksRp: BooksRp) : BooksUiState
     object Error : BooksUiState
     object Loading : BooksUiState
 }
@@ -31,11 +30,11 @@ class BooksViewModel(private val booksRepository: BooksRepository) : ViewModel()
         getBooks()
     }
 
-    fun getBooks() {
+    fun getBooks(query: String= "Science") {
         viewModelScope.launch {
             booksUiState = BooksUiState.Loading
             booksUiState = try {
-               BooksUiState.Success(booksRepository.getBooks())
+               BooksUiState.Success(booksRepository.getBooks(query))
             }catch (E : IOException){
                 BooksUiState.Error
             }
